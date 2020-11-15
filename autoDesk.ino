@@ -265,7 +265,7 @@ void calibrate() {
     calibrating = false;
 }
 
-void motorControl(char control) { // might need to change type
+void motorControl(char control) {
     switch(control) {
         case 0: // up
             if(!controller.isRunning()) {
