@@ -42,6 +42,7 @@ long currentPos;
 
 long calibrateDestination = -defaultMaxHeight;
 bool calibrating = false;
+bool waitingForButtonPress = true;
 bool calibrationStartUp = true;
 
 // motor settings
@@ -93,6 +94,9 @@ void setup() {
     // motor parameters
     desk.setMaxSpeed(normalSpeed);
     desk.setAcceleration(acceleration);
+    while(waitingForButtonPress) {
+        handleButtons();
+    }
     calibrate();
 }
 
@@ -110,6 +114,10 @@ void handleButtons() {
         if(reading == LOW && currentMillis - 500L > lastMillis[i]) { // reduce the number ending in L to increase sensativity but MUST balance debounce
             lastMillis[i] = currentMillis;
             buttonState[i] = HIGH;
+            if(waitingForButtonPress) {
+                waitingForButtonPress = false;
+                break;
+            }
             // button 2 toggles a state and has a hold
             if(i == 2) { // this is the high state
                 if(currentMillis - 2000L > buttonHold && buttonHolding == true && currentMillis < buttonHold + 2500L) { 
@@ -351,4 +359,3 @@ void motorControl(int control) {
 }
     
     
-
