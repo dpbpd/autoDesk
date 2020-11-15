@@ -19,7 +19,7 @@
 #define logl(x)
 #endif
 
-#define up true
+#define up true // this is just to make the code slighly more verbose in one part
 #define down false
 
 // stepper  and controller=
@@ -66,7 +66,7 @@ unsigned long lastMillis[numOfButtons];
 
 // button hold and toggle
 unsigned long buttonHold;
-bool buttonHolding;
+bool buttonHolding = false;
 
 void handleButtons();
 void checkLimits();
@@ -89,11 +89,11 @@ void setup() {
         lastButtonState[i] = LOW;
         lastMillis[i] = currentMillis;
     }
-    buttonHolding = false;
     
     // motor parameters
     desk.setMaxSpeed(normalSpeed);
     desk.setAcceleration(acceleration);
+    // wait for initial button press to calibrate
     while(waitingForButtonPress) {
         handleButtons();
     }
@@ -110,7 +110,7 @@ void handleButtons() {
         checkLimits();
         // check if button is pressed
         byte reading = digitalReadFast(buttonPins[i]);
-        // this is when a button is pressed
+        // button is pressed
         if(reading == LOW && currentMillis - 500L > lastMillis[i]) { // reduce the number ending in L to increase sensativity but MUST balance debounce
             lastMillis[i] = currentMillis;
             buttonState[i] = HIGH;
@@ -134,7 +134,7 @@ void handleButtons() {
     // handles button state
     for(int i = 0; i < numOfButtons; i++) {
         if(buttonState[i] != lastButtonState[i]) {
-            if(buttonState[i] == HIGH) {
+            if(buttonState[i] == HIGH) { // this is when button is pressed
                 if(i == 2) { // this is the toggle of button two
                     buttonHold = currentMillis; 
                     buttonHolding = true;
@@ -144,10 +144,10 @@ void handleButtons() {
                     log(i);
                     logl(" pressed");
                }
-            } else if(buttonState[i] == LOW) {
+            } else if(buttonState[i] == LOW) { // button released
                 if(i == 2){
                     buttonHolding = false;
-                    if(currentMillis - 2000L > buttonHold) { // button being held
+                    if(currentMillis - 2000L > buttonHold) { // when held button is released stores new up/down position
                         if(pos == up && currentPos > downPos) {
                             upPos = desk.getPosition();
                             log("new upPos: ");
@@ -238,7 +238,6 @@ void checkLimits() {
 }
 
 void calibrate() {
-
     calibrating = true;
     desk.setMaxSpeed(calibrationSpeed);
     desk.setPosition(0);
@@ -266,7 +265,7 @@ void calibrate() {
     calibrating = false;
 }
 
-void motorControl(int control) {
+void motorControl(char control) { // might need to change type
     switch(control) {
         case 0: // up
             if(!controller.isRunning()) {
