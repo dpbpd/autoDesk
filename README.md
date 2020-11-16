@@ -8,7 +8,7 @@ This is using the teensyStep Library
 
 https://github.com/luni64/TeensyStep
 
-ni64.github.io/TeensyStep/
+ni64.github.io/TeensyStep
 
 more components to come.
 
