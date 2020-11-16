@@ -3,13 +3,12 @@
 #define PR_DEBUG 0
 /*
  * #define PR_DEBUG 1
- * Sketch uses 24760 bytes (9%) of program storage space. Maximum is 262144 bytes.
- * Global variables use 4576 bytes (6%) of dynamic memory, leaving 60960 bytes for local variables. Maximum is 65536 bytes.
+ * Sketch uses 24824 bytes (9%) of program storage space. Maximum is 262144 bytes.
+ * Global variables use 4568 bytes (6%) of dynamic memory, leaving 60968 bytes for local variables. Maximum is 65536 bytes.
  * 
  * #define PR_DEBUG 0
- * Sketch uses 22008 bytes (8%) of program storage space. Maximum is 262144 bytes.
+ * Sketch uses 22044 bytes (8%) of program storage space. Maximum is 262144 bytes.
  * Global variables use 4552 bytes (6%) of dynamic memory, leaving 60984 bytes for local variables. Maximum is 65536 bytes.
- * 
  */
 #if PR_DEBUG == 1
 #define log(x) Serial.print(x)
