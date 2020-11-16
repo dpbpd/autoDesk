@@ -4,6 +4,12 @@ This program is for automating a standing desk. https://www.amazon.com/Husky-Adj
 
 It uses a Teensy USB Developement Board. https://www.pjrc.com/store/teensy32.html
 
+This is using the teensyStep Library
+
+https://github.com/luni64/TeensyStep
+
+ni64.github.io/TeensyStep/
+
 more components to come.
 
 This is in prototype stage, more to come.
