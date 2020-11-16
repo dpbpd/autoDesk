@@ -203,11 +203,11 @@ void checkLimits() {
             }
             if(calibrating) {
                 logl("limit switch reached while calibrating");
-            } else {
+            } else { // safety reverse
                 if(reading == HIGH) {
                     logl("limit switch triggered. Emergency stop imminent!");
                     logl("Recalibration initiated!");
-                    if(!controller.isRunning()) { // safety reverse
+                    if(!controller.isRunning()) {
                         desk.setTargetRel(safetyReversePos);
                         controller.moveAsync(desk);
                         while(controller.isRunning()) {
@@ -220,7 +220,7 @@ void checkLimits() {
                 } else if(deskHeight >= maxHeight) {
                     logl("Desk is too High. Emergency stop imminent!");
                     logl("Recalibration initiated!");
-                    if(!controller.isRunning()) { // safety reverse
+                    if(!controller.isRunning()) { 
                         desk.setTargetRel(-safetyReversePos);
                         controller.moveAsync(desk);
                         while(controller.isRunning()) {
@@ -291,10 +291,10 @@ void motorControl(char control) {
                 logl("controller is running");
             }
             break;
-        case 2:
+        case 2: // tactile feedback for stored height
             currentPos = desk.getPosition();
             desk.setMaxSpeed(normalSpeed);
-            if(currentPos >= maxSafePos / 2) {
+            if(currentPos >= maxSafePos / 2) { // makes sure tactile feedback doesn't exceed the boundaries
                 if(!controller.isRunning()) {
                     desk.setTargetRel(-50);
                     controller.moveAsync(desk);
